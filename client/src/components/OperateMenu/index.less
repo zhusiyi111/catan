@@ -1,0 +1,28 @@
+.operateMenu {
+  position: absolute;
+  bottom: 0;
+  text-align: left;
+  margin: 10px;
+  .operateBtn {
+    margin: 5px;
+  }
+
+  &.disabled {
+    pointer-events: none;
+    filter: grayscale(1);
+  }
+
+  .endRound {
+    padding: 0 20px;
+    box-sizing: content-box;
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    width: 70%;
+    height: 70px;
+    font-size: 24px;
+    letter-spacing: 15px;
+  }
+}

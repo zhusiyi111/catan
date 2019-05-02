@@ -1,0 +1,15 @@
+@import "../Sidebar/index.less";
+.cardPanel {
+  max-width: calc(100vw - @sidebar-width - 150px);
+  overflow: auto;
+  &.disabled {
+    filter: grayscale(1);
+    pointer-events: none;
+  }
+
+  .cardList {
+    white-space: nowrap;
+    overflow: auto;
+    height: 100%;
+  }
+}

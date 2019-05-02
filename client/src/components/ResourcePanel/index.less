@@ -1,0 +1,59 @@
+@import '../Sidebar/index.less';
+
+.resourcePanel {
+  position: absolute;
+  right: @sidebar-width;
+  top: 0;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+
+  .resourseItem {
+    color: white;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+    border-radius: 10px;
+
+    &.wood {
+      background: #0c802d;
+    }
+    &.brick {
+      background: #bb441e;
+    }
+    &.ore {
+      background: #2177c1;
+    }
+    &.wheat {
+      background: #c1b13d;
+    }
+    &.sheep {
+      background: #10af10;
+    }
+  }
+  .num {
+    padding: 0 3px;
+    margin-left: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    text-align: center;
+    border-radius: 10px;
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"event.js","sourceRoot":"","sources":["../../../../../client/src/ws-dispatch/event.ts"],"names":[],"mappings":";;AAAA,kBAAe;IACb,UAAU;IACV,QAAQ,EAAE,UAAU;IACpB,UAAU,EAAE,YAAY;IACxB,WAAW,EAAE,aAAa;IAC1B,QAAQ,EAAC,UAAU;IAEnB,aAAa;IACb,YAAY,EAAE,cAAc;IAC5B,WAAW,EAAE,aAAa;IAE1B,UAAU;IACV,QAAQ,EAAE,UAAU;IACpB,cAAc,EAAC,gBAAgB;IAC/B,WAAW,EAAC,aAAa;CAC1B,CAAC"}

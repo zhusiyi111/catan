@@ -1,0 +1,56 @@
+.player {
+  width: 80%;
+
+  margin: 0 auto;
+  padding: 15px 10px;
+  background: red;
+
+  color: white;
+  opacity: .6;
+  &.isActive {
+    opacity: 1;
+  }
+
+  .name {
+    font-size: 19px;
+  }
+
+  .firstLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .score {
+    font-size: 18px;
+    .num {
+      margin-left: 5px;
+    }
+  }
+
+  .secondLine {
+    margin-top: 10px;
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #303030;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    .infoItem {
+      display: flex;
+    }
+    .num {
+      margin-left: 3px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 13px;
+      font-weight: bold;
+      color: #ffffff;
+      line-height: 1;
+      text-align: center;
+      background-color: #464545;
+      border-radius: 10px;
+    }
+  }
+}

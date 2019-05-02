@@ -1,0 +1,32 @@
+@import "../Sidebar/index.less";
+@import "../Footer/index.less";
+
+.board {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: @sidebar-width;
+  bottom: @footer-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .wrap {
+    position: relative;
+  }
+  .villages,
+  .areas,
+  .dots {
+    position: absolute;
+  }
+
+  .villages {
+    z-index: 2;
+  }
+  .dots {
+    z-index: 1;
+  }
+  .areas {
+    z-index: 0;
+  }
+}
