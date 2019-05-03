@@ -54,7 +54,7 @@
     "sheep": 2,
     "ore": 2
   },
-  "DefaultVolume": 10,
+  "DefaultVolume": 8,
   "ScoreCard": 1,
   "WinNeedScore": 10,
   "ProduceMap": {
