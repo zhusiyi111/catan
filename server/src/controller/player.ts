@@ -1,7 +1,6 @@
 import { BaseContext } from "koa";
-import { remove } from "lodash";
 import { getInGameStore, updateInGameStore } from "../dao/flow";
-import { Player, Players, PlayerId } from "../types/player";
+import { Players, PlayerId } from "../types/player";
 import { ResourceType, Resource } from "../types/resource";
 import { randomPercent } from "../utils/random";
 import {
@@ -11,7 +10,13 @@ import {
   CardTypeToName,
   HarvestAddNum
 } from "../types/card";
-import { broadcastDrawCard, broadcastUseHarvestCard } from "../dao/player";
+import {
+  broadcastDrawCard,
+  broadcastUseHarvestCard,
+  broadcastDealInBlackMarket
+} from "../dao/player";
+import { getPlayerAndMatchId } from "../service/score";
+import { reduceResource, addResource } from "../service/resource";
 
 export function getPlayer(playerId: PlayerId, players: Players) {
   return players.find(v => v.id === playerId);
@@ -26,6 +31,7 @@ function canDrawCard(resource: Resource) {
 }
 
 function changeResourceCauseDrawCard(resource: Resource) {
+  // TODO 接const.json
   resource[ResourceType.Ore] -= 1;
   resource[ResourceType.Wheat] -= 1;
   resource[ResourceType.Sheep] -= 1;
@@ -37,9 +43,9 @@ function addCardToPlayer(cards: Cards) {
 
   const probabilityMap = {
     [CardType.Army]: 50,
-    [CardType.Score]: 75,
-    [CardType.Harvest]: 90,
-    [CardType.Monopoly]: 100
+    [CardType.Score]: 80,
+    [CardType.Harvest]: 100,
+    // [CardType.Monopoly]: 100
   };
 
   let cardType: CardType;
@@ -74,10 +80,7 @@ function addResourceCauseHarvestCard(type: ResourceType, resource: Resource) {
 
 export default class PlayerController {
   public static async drawCard(ctx: BaseContext) {
-    let { playerId, matchId } = ctx.query;
-    playerId = +playerId;
-    matchId = +matchId;
-
+    let { playerId, matchId } = getPlayerAndMatchId(ctx);
     const store = await getInGameStore(matchId);
     const { players } = store;
     const player = getPlayer(playerId, players);
@@ -104,9 +107,7 @@ export default class PlayerController {
   }
 
   static async useHarvestCard(ctx: BaseContext) {
-    let { playerId, matchId } = ctx.query;
-    playerId = +playerId;
-    matchId = +matchId;
+    let { playerId, matchId } = getPlayerAndMatchId(ctx);
 
     const { type } = ctx.request.body;
 
@@ -128,6 +129,38 @@ export default class PlayerController {
 
     // 广播用牌消息
     broadcastUseHarvestCard({ players: store.players, playerId });
+
+    ctx.body = { success: true };
+  }
+
+  /* 黑市交易 */
+  static async dealInBlackMarket(ctx: BaseContext) {
+    let { playerId, matchId } = getPlayerAndMatchId(ctx);
+
+    const { giveResource, gainResource } = ctx.request.body;
+
+    const store = await getInGameStore(matchId);
+    const { players } = store;
+    const player = getPlayer(playerId, players);
+    const { resource } = player;
+
+    // TODO:校验是否有丰收卡
+
+    // 减资源
+    reduceResource(resource, giveResource);
+
+    // 加资源
+    addResource(resource, gainResource);
+
+    // 存
+    await updateInGameStore(store);
+
+    // 广播黑市消息
+    broadcastDealInBlackMarket({
+      players: store.players,
+      gainResource,
+      playerId
+    });
 
     ctx.body = { success: true };
   }

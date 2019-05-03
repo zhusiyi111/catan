@@ -1,8 +1,9 @@
 import { BaseContext } from "koa";
 import { every, forEach } from "lodash";
 import { getInGameStore, updateInGameStore } from "../dao/flow";
-import { Player, Players } from "../types/player";
-import { ResourceType, Resource, BuildingResouceMap } from "../types/resource";
+import { Player } from "../types/player";
+import { ResourceType, Resource, IBuildingResouceMap } from "../types/resource";
+import { BuildingResouceMap as _BuildingResouceMap } from "../../../client/src/const.json";
 import {
   IVillage,
   VillageType,
@@ -17,6 +18,9 @@ import { getVillageFromLocation } from "../service/village";
 import { calcRobTotal, reduceResource, addResource } from "../service/resource";
 import { calcActualRobResource } from "../service/resource";
 import { broadcaseRobResult } from "../dao/player";
+import { getPlayerAndMatchId } from "../service/score";
+
+const BuildingResouceMap: IBuildingResouceMap = _BuildingResouceMap;
 
 function findVillage(location: VillageLocation, villages: Villages) {
   return villages.find(v => isEqualLocation(v.location, location));
@@ -24,19 +28,11 @@ function findVillage(location: VillageLocation, villages: Villages) {
 
 function canBuildVillage(player: Player) {
   const { resource } = player;
-  return (
-    resource[ResourceType.Brick] >= 1 &&
-    resource[ResourceType.Wood] >= 1 &&
-    resource[ResourceType.Sheep] >= 1 &&
-    resource[ResourceType.Wheat] >= 1
-  );
+  return canResourceUpgradeVillage(VillageType.Town, resource);
 }
 /* 建村庄扣除资源 */
 function useResourceBuildVillage(player: Player) {
-  player.resource[ResourceType.Brick] -= 1;
-  player.resource[ResourceType.Wood] -= 1;
-  player.resource[ResourceType.Sheep] -= 1;
-  player.resource[ResourceType.Wheat] -= 1;
+  useResourceUpgradeVillage(VillageType.Town, player.resource);
 }
 
 /* 升级二级城资源条件 */
@@ -70,13 +66,12 @@ export function changeVolume(player: Player, num: number) {
 export default class UserController {
   public static async buildVillage(ctx: BaseContext) {
     // 取matchId,round,x,y,owner,type
-    let { matchId } = ctx.query;
-    matchId = +matchId;
-    let { x, y, playerId } = ctx.request.body;
+    const { matchId, playerId } = getPlayerAndMatchId(ctx);
+    let { x, y } = ctx.request.body;
 
     // 取对应player,判断新建条件(可以前端做)
     const store = await getInGameStore(matchId);
-    const { players, currentPlayer, villages } = store;
+    const { players, villages } = store;
     const player = getPlayer(playerId, players);
 
     const canBuild = canBuildVillage(player);
@@ -152,9 +147,8 @@ export default class UserController {
   }
 
   static async robVillage(ctx: BaseContext) {
-    let { matchId, playerId } = ctx.query;
-    matchId = +matchId;
-    playerId = +playerId;
+    let { matchId, playerId } = getPlayerAndMatchId(ctx);
+
     let { x, y } = ctx.request.body;
 
     const store = await getInGameStore(matchId);

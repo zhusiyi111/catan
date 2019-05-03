@@ -2,6 +2,7 @@ import { Resource, ResourceType } from "../resource";
 import { State } from "..";
 import { Cards } from "../card";
 import { drawCard, useHarvestCard } from "../card/service";
+import { dealInBlackMarket } from "./service";
 
 export type PlayerId = number;
 
@@ -39,6 +40,17 @@ export default {
     },
     async useHarvestCard(type: ResourceType) {
       const res = await useHarvestCard(type);
+      if (res.success) {
+      }
+    },
+    async dealInBlackMarket({
+      giveResource,
+      gainResource
+    }: {
+      giveResource: Resource;
+      gainResource: Resource;
+    }) {
+      const res = await dealInBlackMarket(giveResource, gainResource);
       if (res.success) {
       }
     }

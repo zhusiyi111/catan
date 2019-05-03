@@ -5,12 +5,13 @@ import { getAreaFromLocation, removeRobberInAllAreas } from "../service/area";
 import { getVillagesAroundArea } from "../service/village";
 import { CardType } from "../types/card";
 import { broadcaseUseArmyCard, broadcaseRobAreaFromDice } from "../dao/player";
+import { getPlayerAndMatchId } from "../service/score";
 
 export default class AreaController {
   static async selectRobberAreaCauseArmy(ctx: BaseContext) {
-    let { matchId, playerId } = ctx.query;
-    matchId = +matchId;
-    playerId = +playerId;
+
+    let { matchId, playerId } = getPlayerAndMatchId(ctx);
+    
     let { x, y, isRobDice } = ctx.request.body;
 
     const store = await getInGameStore(matchId);

@@ -22,7 +22,7 @@ class GamePage extends Component<Props> {
   render() {
     const { round } = this.props;
     const isReady = round && round !== -2;
-    
+
     return (
       <div className="game">
         {isReady && (
@@ -31,9 +31,9 @@ class GamePage extends Component<Props> {
             <Siderbar />
             <Footer />
             <DiceArea />
-            <Login />
           </>
         )}
+        <Login />
       </div>
     );
   }

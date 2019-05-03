@@ -2,6 +2,9 @@ import { Location } from "../location";
 import { DotLocation } from "../dot";
 import { buildVillage, upgradeVillage, robVillage } from "./service";
 import { State } from "..";
+import { BuildScoreMap as _BuildScoreMap } from "../../const.json";
+
+export const BuildScoreMap: { [k: string]: number } = _BuildScoreMap;
 
 export interface VillageLocation extends Location {}
 

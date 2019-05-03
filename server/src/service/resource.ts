@@ -6,14 +6,9 @@ import { Villages, IVillage, VillageType } from "../types/village";
 import { getVillagesAroundAreas, calcCastleNum } from "./village";
 import { rollBetween } from "./roll";
 import { isForbidArea } from "./area";
+import { ProduceMap as _ProduceMap } from "../../../client/src/const.json";
 
-const ProduceMap: { [i: string]: number } = {
-  [VillageType.Town]: 1,
-  [VillageType.City]: 2,
-  [VillageType.Warehouse]: 1,
-  [VillageType.Castle]: 1,
-  [VillageType.Wonder]: 0
-};
+const ProduceMap: { [k: string]: number } = _ProduceMap;
 
 export function updateResource(
   playersSource: Players,
@@ -40,8 +35,6 @@ export function updateResource(
     playersAddMap[owner][type] += ProduceMap[villageType];
     return null;
   });
-
-  console.log(playersAddMap);
 
   const newPlayers = players.map(player => {
     const { id, resource, volume } = player;
@@ -190,6 +183,10 @@ export function calcReduceResource(resource: Resource, total: number) {
 export function reduceResource(resource: Resource, modifyResource: Resource) {
   for (let i in resource) {
     resource[i] = resource[i] - (modifyResource[i] || 0);
+    /* TODO：暂时解决被抢者资源变负的问题 */
+    if (resource[i] < 0) {
+      resource[i] = 0;
+    }
   }
 }
 

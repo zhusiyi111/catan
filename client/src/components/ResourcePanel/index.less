@@ -1,4 +1,4 @@
-@import '../Sidebar/index.less';
+@import "../Sidebar/index.less";
 
 .resourcePanel {
   position: absolute;
@@ -14,7 +14,7 @@
 
   .resourseItem {
     color: white;
-    width: 80px;
+    width: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,7 +47,7 @@
     padding: 0 3px;
     margin-left: 3px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     font-size: 16px;
     font-weight: bold;
@@ -55,5 +55,26 @@
     line-height: 1;
     text-align: center;
     border-radius: 10px;
+    .modify {
+      margin-left: 5px;
+      font-size: 15px;
+      opacity: 0;
+      transition: all 0.2s ease-in-out;
+
+      &.add,
+      &.minus {
+        opacity: 1;
+      }
+
+      &.add {
+        &::before {
+          content: "+";
+        }
+        color: white;
+      }
+      &.minus {
+        color: white;
+      }
+    }
   }
 }

@@ -4,17 +4,13 @@ import { Interface, prefix } from "../../client/src/config/interface";
 
 const router = new Router();
 
-// USER ROUTES
-router.get("/users", controller.user.getUsers);
-router.get("/users/:id", controller.user.getUser);
-router.post("/users", controller.user.createUser);
-router.put("/users/:id", controller.user.updateUser);
-router.delete("/users/:id", controller.user.deleteUser);
-
 /* flow */
-router.get(prefix + Interface.ready, controller.flow.ready);
-router.get(prefix + Interface.endRound, controller.flow.endRound);
-router.get(prefix + Interface.reconnect, controller.flow.reconnect);
+router.post(prefix + Interface.ready, controller.flow.ready);
+router.post(prefix + Interface.endRound, controller.flow.endRound);
+router.post(prefix + Interface.reconnect, controller.flow.reconnect);
+
+/* players */
+router.post(prefix + Interface.dealInBlackMarket, controller.player.dealInBlackMarket);
 
 // Village
 router.post(prefix + Interface.buildVillage, controller.village.buildVillage);
@@ -31,7 +27,7 @@ router.post(
 );
 
 /* card */
-router.get(prefix + Interface.drawCard, controller.player.drawCard);
+router.post(prefix + Interface.drawCard, controller.player.drawCard);
 router.post(
   prefix + Interface.useHarvestCard,
   controller.player.useHarvestCard

@@ -7,23 +7,14 @@ import { isEqualLocation } from "../location/helper";
 import { Players, PlayerId } from "../player";
 import { Resource, ResourceType } from "../resource";
 import { endRound } from "./service";
-import { Round } from "../round";
 
 const { dispatch } = store;
 
-// function delay(number: number) {
-//   return new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve();
-//     }, number);
-//   });
-// }
-
 export function startGame() {}
 
-export function endTurn(round: Round) {
+export function endTurn() {
   dispatch.status.returnMain();
-  endRound(round);
+  endRound();
 }
 
 export async function start() {
@@ -153,3 +144,4 @@ function getVillagesAroundArea(area: IArea, villages: Villages) {
   );
   return result;
 }
+

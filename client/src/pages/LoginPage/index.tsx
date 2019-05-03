@@ -50,9 +50,31 @@ class Login extends React.Component<
     setPlayerId(+playerId);
     setMatchId(matchId);
 
-    await ready(playerId);
+    await ready();
 
-    this.props.history.push("/game");
+    setTimeout(() => {
+      this.props.history.push("/game");
+    }, 500);
+  };
+
+  enterMatch = () => {
+    let { playerId } = this.state;
+    if (!playerId || playerId <= 0) {
+      alert("请输入用户Id");
+      return;
+    }
+
+    let { matchId } = this.state;
+    if (!matchId || matchId <= 0) {
+      alert("请输入比赛Id");
+      return;
+    }
+
+    setPlayerId(+playerId);
+    setMatchId(matchId);
+    setTimeout(() => {
+      window.location.href = "/game";
+    }, 500);
   };
 
   render() {
@@ -82,8 +104,13 @@ class Login extends React.Component<
             }}
           />
         </div>
+        <br />
+        <Button type="primary" onClick={this.enterMatch}>
+          断线重连
+        </Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button type="primary" onClick={this.onReady}>
-          准备！
+          开始新比赛
         </Button>
       </div>
     );

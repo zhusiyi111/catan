@@ -18,7 +18,7 @@ export function newRound(payload: InGameStore) {
   if (!payload) {
     const playerId = getPlayerId();
     const matchId = getMatchId();
-    
+
     if (!playerId || !matchId || playerId < 0 || matchId < 0) {
       alert("没登录，出去登录");
       window.location.href = "/";
@@ -198,6 +198,27 @@ const RobDice = ({ playerId }: { playerId: PlayerId }) => {
   }
 };
 
+/* 黑市交易 */
+const dealInBlackMarket = ({
+  players,
+  playerId,
+  gainResource
+}: {
+  players: Players;
+  playerId: PlayerId;
+  gainResource: Resource;
+}) => {
+  const player = getPlayer(playerId, players);
+  if (player) {
+    log(
+      `${player.name}通过黑市交易得到了${formatResourceToText(
+        gainResource
+      )}`
+    );
+  }
+  dispatch.players.updatePlayers(players);
+};
+
 export default {
   newRound,
   updateStore,
@@ -209,5 +230,6 @@ export default {
   useArmyCard,
   robResult,
   RobDice,
-  robAreaFromDice
+  robAreaFromDice,
+  dealInBlackMarket
 };

@@ -1,12 +1,11 @@
 import wsDispatch from "../ws-dispatch";
 import { bindPlayer, reconnect } from "../models/flow/service";
 import { getPlayerId } from "../models/player/helper";
-import { wsPrefix, domain } from "../config/interface";
-const temp = '47.107.69.189';
+import { isProd } from "../config/env";
 
-const ws = new WebSocket(`ws://${temp}:9001 `)
+const temp = isProd ? "47.107.69.189" : "localhost";
 
-
+const ws = new WebSocket(`ws://${temp}:9001 `);
 
 ws.onopen = () => {
   ws.send(`player ${getPlayerId()} join`);

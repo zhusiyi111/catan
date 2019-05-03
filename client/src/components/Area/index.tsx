@@ -19,6 +19,7 @@ import WoodBg from "../../assets/image/woodArea2.png";
 import OreBg from "../../assets/image/oreArea.jpg";
 import SheepBg from "../../assets/image/sheepArea.jpg";
 import DesertBg from "../../assets/image/desertArea.png";
+import RobberImg from "../../assets/image/robber.png";
 
 const BgMap: { [k: string]: string } = {
   [AreaType.Brick]: BrickBg,
@@ -125,6 +126,7 @@ class Area extends Component<AreaProps> {
           {number}
         </p>
         <img className="areaBg" alt="bg" src={BgMap[type]} />
+        <img className="robber" alt="robber" src={RobberImg} />
       </div>
     );
   }

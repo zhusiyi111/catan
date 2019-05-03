@@ -39,7 +39,7 @@ class Board extends Component<BoardProps> {
 
     return (
       <div className="board">
-        <div className="wrap" style={{ width, height }}>
+        <div className="wrap boardWrap" style={{ width, height }}>
           <div className="villages">
             {villages.map((v, i) => (
               <Village key={i} village={v} />

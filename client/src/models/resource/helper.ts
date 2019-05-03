@@ -1,16 +1,11 @@
 import { every } from "lodash";
-import { Resource, ResourceType, BuildingResouceMap, ResourceName } from ".";
+import { Resource, BuildingResouceMap, ResourceName } from ".";
 import { reduce } from "lodash";
 import { VillageType } from "../village";
 
 /* 建村庄资源条件 */
 export function canBuildVillage(resource: Resource) {
-  return (
-    resource[ResourceType.Brick] >= 1 &&
-    resource[ResourceType.Wood] >= 1 &&
-    resource[ResourceType.Sheep] >= 1 &&
-    resource[ResourceType.Wheat] >= 1
-  );
+  return canResourceUpgradeVillage(VillageType.Town, resource);
 }
 
 /* 判断是否可以升级某类二级城 */

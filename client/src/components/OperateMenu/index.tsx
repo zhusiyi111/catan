@@ -5,25 +5,30 @@ import classnmes from "classnames";
 import { Status } from "../../models/status";
 import { isStatus } from "../../models/status/helper";
 import { endTurn } from "../../models/flow";
-
+import DealPanel from "../DealPanel";
 import "./index.less";
 import { Players, PlayerId } from "../../models/player";
 import {
   canBuildVillage,
-  canResourceUpgradeVillage
+  canResourceUpgradeVillage,
+  formatResourceToText
 } from "../../models/resource/helper";
 import { State } from "../../models";
 import { getPlayerId, getPlayer } from "../../models/player/helper";
-import { Round } from "../../models/round";
 import { canDarwCard } from "../../models/card/helper";
 import { hasTown } from "../../models/village/helper";
-import { Villages, VillageType } from "../../models/village";
-import { Button, Icon } from "antd";
+import { Villages, VillageType, BuildScoreMap } from "../../models/village";
+import { VolumeOfWarehouse } from "../../const.json";
+import { Button, Icon, Popover } from "antd";
+import {
+  BuildingResouceMap,
+  ProduceMap,
+  CardResource
+} from "../../models/resource";
 
 interface OperateMenuProps {
   status: Status[];
   players: Players;
-  round: Round;
   villages: Villages;
   currentPlayer: PlayerId;
   clickBuildVillage: () => void;
@@ -65,7 +70,7 @@ class OperateMenu extends Component<OperateMenuProps> {
   };
 
   clickEndTurn = () => {
-    endTurn(this.props.round);
+    endTurn();
   };
 
   render() {
@@ -81,76 +86,177 @@ class OperateMenu extends Component<OperateMenuProps> {
     return (
       <div className={classnmes("operateMenu", { disabled: !isMyRound })}>
         <div className="row">
-          <Button
-            type="primary"
-            className="operateBtn"
-            disabled={
-              !isStatus(status, Status.Main) || !canBuildVillage(resource)
+          <DealPanel />
+        </div>
+        <div className="row">
+          <Popover
+            content={
+              <>
+                <p>
+                  村庄，最基本的建筑单位，单位产量：
+                  {ProduceMap[VillageType.Town]}
+                </p>
+                <p>
+                  建造需要：
+                  {formatResourceToText(BuildingResouceMap[VillageType.Town])}
+                </p>
+                <p>每个贡献分数：{BuildScoreMap[VillageType.City]}</p>
+              </>
             }
-            onClick={this.clickBuildVillage}
+            title="村庄"
+            mouseEnterDelay={1}
           >
-            新建村庄
-          </Button>
+            <Button
+              type="primary"
+              className="operateBtn"
+              disabled={
+                !isStatus(status, Status.Main) || !canBuildVillage(resource)
+              }
+              onClick={this.clickBuildVillage}
+            >
+              新建村庄
+            </Button>
+          </Popover>
         </div>
 
         <div className="row">
-          <Button
-            type="primary"
-            className="operateBtn"
-            disabled={
-              !canResourceUpgradeVillage(VillageType.City, resource) ||
-              !hasTown(villages, me.id)
+          <Popover
+            content={
+              <>
+                <p>城市，单位产量：{ProduceMap[VillageType.City]}</p>
+                <p>
+                  建造需要：
+                  {formatResourceToText(BuildingResouceMap[VillageType.City])}
+                </p>
+                <p>每个单位贡献分数：{BuildScoreMap[VillageType.City]}</p>
+              </>
             }
-            onClick={this.clickUpgradeCity}
+            title="村庄"
+            mouseEnterDelay={1}
           >
-            升级城市
-          </Button>
-          <Button
-            type="primary"
-            className="operateBtn"
-            disabled={
-              !canResourceUpgradeVillage(VillageType.Warehouse, resource) ||
-              !hasTown(villages, me.id)
+            <Button
+              type="primary"
+              className="operateBtn"
+              disabled={
+                !canResourceUpgradeVillage(VillageType.City, resource) ||
+                !hasTown(villages, me.id)
+              }
+              onClick={this.clickUpgradeCity}
+            >
+              升级城市
+            </Button>
+          </Popover>
+
+          <Popover
+            content={
+              <>
+                <p>仓库，单位产量：{ProduceMap[VillageType.Castle]}</p>
+                <p>功能：每个仓库额外增加{VolumeOfWarehouse}个容量</p>
+                <p>
+                  建造需要：
+                  {formatResourceToText(BuildingResouceMap[VillageType.Castle])}
+                </p>
+                <p>每个单位贡献分数：{BuildScoreMap[VillageType.Castle]}</p>
+              </>
             }
-            onClick={this.clickUpgradeWarehouse}
+            title="仓库"
+            mouseEnterDelay={1}
           >
-            升级仓库
-          </Button>
-          <Button
-            type="primary"
-            className="operateBtn"
-            disabled={
-              !canResourceUpgradeVillage(VillageType.Castle, resource) ||
-              !hasTown(villages, me.id)
+            <Button
+              type="primary"
+              className="operateBtn"
+              disabled={
+                !canResourceUpgradeVillage(VillageType.Warehouse, resource) ||
+                !hasTown(villages, me.id)
+              }
+              onClick={this.clickUpgradeWarehouse}
+            >
+              升级仓库
+            </Button>
+          </Popover>
+          <Popover
+            content={
+              <>
+                <p>城堡，单位产量：{ProduceMap[VillageType.Castle]}</p>
+                <p>
+                  功能：1. 城堡附近的区域不能被强盗占领。2.
+                  掠夺他人的资源数正比于双方城堡的差距
+                </p>
+                <p>
+                  建造需要：
+                  {formatResourceToText(BuildingResouceMap[VillageType.Castle])}
+                </p>
+                <p>每个单位贡献分数：{BuildScoreMap[VillageType.Castle]}</p>
+              </>
             }
-            onClick={this.clickUpgradeCastle}
+            title="城堡"
+            mouseEnterDelay={1}
           >
-            升级城堡
-          </Button>
-          <Button
-            type="primary"
-            className="operateBtn"
-            disabled={
-              !canResourceUpgradeVillage(VillageType.Wonder, resource) ||
-              !hasTown(villages, me.id)
+            <Button
+              type="primary"
+              className="operateBtn"
+              disabled={
+                !canResourceUpgradeVillage(VillageType.Castle, resource) ||
+                !hasTown(villages, me.id)
+              }
+              onClick={this.clickUpgradeCastle}
+            >
+              升级城堡
+            </Button>
+          </Popover>
+          <Popover
+            content={
+              <>
+                <p>奇观，单位产量：{ProduceMap[VillageType.Wonder]}</p>
+                <p>
+                  建造需要：
+                  {formatResourceToText(BuildingResouceMap[VillageType.Wonder])}
+                </p>
+                <p>每个单位贡献分数：{BuildScoreMap[VillageType.Wonder]}</p>
+              </>
             }
-            onClick={this.clickUpgradeWonder}
+            title="奇观"
+            mouseEnterDelay={1}
           >
-            升级遗迹
-          </Button>
+            <Button
+              type="primary"
+              className="operateBtn"
+              disabled={
+                !canResourceUpgradeVillage(VillageType.Wonder, resource) ||
+                !hasTown(villages, me.id)
+              }
+              onClick={this.clickUpgradeWonder}
+            >
+              升级奇观
+            </Button>
+          </Popover>
           <Button disabled type="primary" className="operateBtn">
             升级船坞(开发中)
           </Button>
         </div>
         <div className="row">
-          <Button
-            type="primary"
-            className="operateBtn"
-            disabled={!canDarwCard(resource)}
-            onClick={this.clickCard}
+          <Popover
+            content={
+              <>
+                <p>抽一张发展卡</p>
+                <p>
+                  需要资源：
+                  {formatResourceToText(CardResource)}
+                </p>
+              </>
+            }
+            title="奇观"
+            mouseEnterDelay={1}
           >
-            抽牌
-          </Button>
+            <Button
+              type="primary"
+              className="operateBtn"
+              disabled={!canDarwCard(resource)}
+              onClick={this.clickCard}
+            >
+              抽牌
+            </Button>
+          </Popover>
           <Button onClick={this.clickCancel}>取消</Button>
         </div>
 
@@ -166,7 +272,6 @@ class OperateMenu extends Component<OperateMenuProps> {
 const mapState = (s: State) => ({
   status: s.status,
   players: s.players,
-  round: s.round,
   villages: s.villages,
   currentPlayer: s.currentPlayer
 });

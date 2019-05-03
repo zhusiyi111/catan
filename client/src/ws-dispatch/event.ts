@@ -7,6 +7,9 @@ export default {
   RobAreaFromDice: "robAreaFromDice",
   GameOver: "gameOver",
 
+  /* player */
+  DealInBlackMarket: "dealInBlackMarket",
+
   /* village */
   BuildVillage: "buildVillage",
   UpgradeCity: "upgradeCity",

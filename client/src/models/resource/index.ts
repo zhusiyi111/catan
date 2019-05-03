@@ -1,4 +1,8 @@
-import { VillageType } from "../village";
+import {
+  BuildingResouceMap as _BuildingResouceMap,
+  ProduceMap as _ProduceMap,
+  CardResource as _CardResource
+} from "../../const.json";
 
 export enum ResourceType {
   Wood = "wood", //木头
@@ -25,33 +29,12 @@ export interface Resource {
   [k: string]: number;
 }
 
-export const BuildingResouceMap: { [i: string]: Resource } = {
-  [VillageType.City]: {
-    [ResourceType.Wood]: 0,
-    [ResourceType.Brick]: 0,
-    [ResourceType.Sheep]: 0,
-    [ResourceType.Wheat]: 2,
-    [ResourceType.Ore]: 3
-  },
-  [VillageType.Warehouse]: {
-    [ResourceType.Wood]: 1,
-    [ResourceType.Brick]: 2,
-    [ResourceType.Sheep]: 0,
-    [ResourceType.Wheat]: 0,
-    [ResourceType.Ore]: 2
-  },
-  [VillageType.Castle]: {
-    [ResourceType.Wood]: 1,
-    [ResourceType.Brick]: 2,
-    [ResourceType.Sheep]: 0,
-    [ResourceType.Wheat]: 0,
-    [ResourceType.Ore]: 2,
-  },
-  [VillageType.Wonder]: {
-    [ResourceType.Wood]: 2,
-    [ResourceType.Brick]: 2,
-    [ResourceType.Sheep]: 2,
-    [ResourceType.Wheat]: 1,
-    [ResourceType.Ore]: 1
-  }
-};
+export const BuildingResouceMap: {
+  [i: string]: Resource;
+} = _BuildingResouceMap;
+
+export const ProduceMap: {
+  [i: string]: number;
+} = _ProduceMap;
+
+export const CardResource: any = _CardResource;

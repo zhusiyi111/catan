@@ -1,0 +1,75 @@
+{
+  "AreaBiggerPlayerNum": 3,
+  "PureRate": 3,
+  "MultipleRate": 4,
+  "WaitingRound": 2,
+  "BuildingResouceMap": {
+    "town": {
+      "brick": 1,
+      "wood": 1,
+      "sheep": 1,
+      "wheat": 1,
+      "ore": 0
+    },
+    "city": {
+      "wood": 1,
+      "brick": 2,
+      "sheep": 1,
+      "wheat": 1,
+      "ore": 1
+    },
+    "warehouse": {
+      "wood": 1,
+      "brick": 2,
+      "sheep": 0,
+      "wheat": 0,
+      "ore": 1
+    },
+    "castle": {
+      "wood": 0,
+      "brick": 0,
+      "sheep": 0,
+      "wheat": 2,
+      "ore": 3
+    },
+    "wonder": {
+      "wood": 2,
+      "brick": 2,
+      "sheep": 2,
+      "wheat": 1,
+      "ore": 1
+    }
+  },
+  "BuildScoreMap": {
+    "town": 1,
+    "city": 2,
+    "warehouse": 2,
+    "castle": 2,
+    "wonder": 3
+  },
+  "DefaultResource": {
+    "brick": 2,
+    "wood": 2,
+    "wheat": 2,
+    "sheep": 2,
+    "ore": 2
+  },
+  "DefaultVolume": 10,
+  "ScoreCard": 1,
+  "WinNeedScore": 10,
+  "ProduceMap": {
+    "town": 1,
+    "city": 2,
+    "warehouse": 1,
+    "castle": 1,
+    "wonder": 0
+  },
+  "VolumeOfWarehouse": 4,
+  "CardResource": {
+    "brick": 0,
+    "wood": 0,
+    "wheat": 1,
+    "sheep": 1,
+    "ore": 1
+  }
+}

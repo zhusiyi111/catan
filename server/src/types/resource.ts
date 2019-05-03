@@ -1,6 +1,9 @@
-import { VillageType } from "../types/village";
-import { cloneDeep } from "lodash";
-import { BuildingResouceMap as needMap } from "../../../client/src/models/resource";
+import {
+  BuildingResouceMap as needMap,
+  CardResource as _CardResource
+} from "../../../client/src/const.json";
+
+export const CardResource = _CardResource as { [i: string]: number };
 
 export enum ResourceType {
   Brick = "brick", //砖头
@@ -18,6 +21,8 @@ export interface Resource {
   [ResourceType.Ore]: number;
   [k: string]: number;
 }
+
+export type IBuildingResouceMap = { [i: string]: Resource };
 
 export const BuildingResouceMap = needMap;
 

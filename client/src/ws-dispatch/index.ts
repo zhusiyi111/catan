@@ -9,6 +9,9 @@ const EventDispatchMap = {
   [Event.RobDice]: dispatch.RobDice,
   [Event.RobAreaFromDice]: dispatch.robAreaFromDice,
 
+  /* player */
+  [Event.DealInBlackMarket]: dispatch.dealInBlackMarket,
+
   /* village */
   [Event.BuildVillage]: dispatch.buildVillage,
   [Event.UpgradeCity]: dispatch.upgradeCity,

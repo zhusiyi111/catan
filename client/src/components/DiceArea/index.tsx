@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { Roll } from "../../models/roll";
 import Dice from "./Dice";
-import Login from "../Login";
 
 import "./index.less";
 import { State } from "../../models";
@@ -21,7 +20,6 @@ class DiceArea extends Component<DiceAreaProps> {
     const { roll, round, matchId } = this.props;
     return (
       <div className="diceArea">
-        <Login />
         <div className="wrap">
           <span>当前比赛ID:{matchId}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;

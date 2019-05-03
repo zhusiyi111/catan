@@ -1,6 +1,10 @@
 import { BaseContext } from "koa";
-import { range } from "lodash";
+import { range, sample } from "lodash";
 import { Areas, AreaExtendType, AreaType, AreaTypeToName } from "../types/area";
+import {
+  AreaBiggerPlayerNum,
+  WaitingRound
+} from "../../../client/src/const.json";
 import {
   updateInGameStore,
   getInGameStore,
@@ -15,29 +19,22 @@ import { PlayerId, Players } from "../types/player";
 import { ResourceType } from "../types/resource";
 import { sendTo, broadcast } from "../utils/ws";
 import Event from "../../../client/src/ws-dispatch/event";
-import { calcPlayersScore } from "../service/score";
+import { calcPlayersScore, getPlayerAndMatchId } from "../service/score";
 import { findWinner } from "../service/score";
-import { DefaultVolume } from "../config";
-import { DefaultResource, PlayerNumber } from "../config";
-import { rollBetween, doubleRoll, rollBetweenArr } from "../service/roll";
+import { DefaultVolume, DefaultResource } from "../../../client/src/const.json";
+import { doubleRoll } from "../service/roll";
 import { isForbidArea } from "../service/area";
 import round from "../../../client/src/models/round";
 
 const RobDiceNum = 7;
 
-function randomAreaType() {
-  const resourceList = [
-    ResourceType.Brick,
-    ResourceType.Ore,
-    ResourceType.Sheep,
-    ResourceType.Wheat,
-    ResourceType.Wood
-  ];
-  const index = rollBetween(0, resourceList.length - 1);
-
-  // TODO:return real type
-  return resourceList[index];
-}
+const resourceList = [
+  ResourceType.Brick,
+  ResourceType.Ore,
+  ResourceType.Sheep,
+  ResourceType.Wheat,
+  ResourceType.Wood
+];
 
 function getAreaName(type: AreaType) {
   return AreaTypeToName[type];
@@ -45,6 +42,22 @@ function getAreaName(type: AreaType) {
 
 function generateAreas(width: number, height: number): Areas {
   const areas = [];
+
+  const numList = range(2, 7).concat(range(8, 13));
+  const needList = numList.slice(0);
+  const needResourceList = []
+    .concat(resourceList)
+    .concat(resourceList)
+    .concat(resourceList);
+
+  function popRandom<T>(arr: Array<T>) {
+    if (!arr.length) return undefined;
+    const result = sample(arr);
+    const index = arr.indexOf(result);
+    arr.splice(index, 1);
+    return result;
+  }
+
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {
       const area: any = {
@@ -52,13 +65,16 @@ function generateAreas(width: number, height: number): Areas {
           x,
           y
         },
-        number: rollBetweenArr(range(2, 6).concat(range(8, 12)))
+        number: needList.length ? popRandom(needList) : sample(numList)
       };
       if (isForbidArea(x, y)) {
         area.type = AreaExtendType.Desert;
         area.number = RobDiceNum;
       } else {
-        area.type = randomAreaType();
+        const type = needResourceList.length
+          ? popRandom(needResourceList)
+          : sample(resourceList);
+        area.type = type;
       }
       area.name = getAreaName(area.type);
 
@@ -96,7 +112,7 @@ function generateInitialStore(
   matchId: number
 ): InGameStore {
   const playersNum = playerIds.length;
-  const areaSize = playersNum + 2;
+  const areaSize = playersNum + AreaBiggerPlayerNum;
 
   const areas = generateAreas(areaSize, areaSize);
 
@@ -120,6 +136,43 @@ async function newRound(matchId: number, round: number) {
   const store: InGameStore = await getInGameStore(matchId, round);
 
   const { players, currentPlayer, areas, villages } = store;
+
+  console.log("fadsfs", players.length * WaitingRound, round);
+  /* 选地阶段，不进行发资源等操作 */
+  if (players.length * WaitingRound >= round) {
+    // 回合数+1
+    const newRound = store.round + 1;
+    store.round = newRound;
+
+    // 取player数组，确定下一个player
+    const curIndex = players.findIndex((v: any) => v.id === currentPlayer);
+    let nextIndex;
+
+    if (
+      curIndex === undefined ||
+      curIndex === -1 ||
+      curIndex + 1 >= players.length
+    ) {
+      nextIndex = 0;
+    } else {
+      nextIndex = curIndex + 1;
+    }
+
+    store.currentPlayer = players[nextIndex].id;
+
+    // 存
+    const res = await updateInGameStore(store);
+
+    console.log(
+      `比赛id:${matchId}进入第${round}轮（准备轮）,本轮玩家:${
+        store.currentPlayer
+      }`
+    );
+    // 广播新状态
+    broadcastStore(store);
+
+    return;
+  }
 
   // 计算分数
   const scoreMap = calcPlayersScore(villages, players);
@@ -227,15 +280,18 @@ async function startGame(players: PlayerId[], matchId: number) {
 
 export default class Flow {
   static async ready(ctx: BaseContext) {
-    let { matchId, playerId } = ctx.query;
-    matchId = +matchId;
-    playerId = +playerId;
+    let { matchId, playerId } = getPlayerAndMatchId(ctx);
+
     await addPlayerToMatch(+matchId, +playerId);
 
     const store = await getWaitingStore(matchId);
     const { waitingList } = store;
+
+    /* 这里暂时取比赛id的第一位作为人数 */
+    const firstNum = matchId.toString()[0];
+
     // 人数够了，开始游戏
-    if (waitingList.length >= PlayerNumber) {
+    if (waitingList.length >= firstNum) {
       console.log(`人齐了，开始.matchId:${matchId},waitingList:${waitingList}`);
       startGame(waitingList, matchId);
     }
@@ -243,27 +299,17 @@ export default class Flow {
   }
 
   static async endRound(ctx: BaseContext) {
-    const { matchId, round } = ctx.query;
-    // TODO 检查胜负状态
+    const { matchId } = ctx.query;
 
-    // newRound
+    const { round } = await getInGameStore(matchId);
+
     newRound(matchId, round);
-  }
-
-  static roll() {
-    // roll点 广播
-  }
-
-  static endGame(matchId: number) {
-    // 做一些收尾工作
+    ctx.body = "ok";
   }
 
   /* 重连 */
   static async reconnect(ctx: BaseContext) {
-    let { playerId, matchId } = ctx.query;
-    playerId = +playerId;
-    matchId = +matchId;
-
+    let { playerId, matchId } = getPlayerAndMatchId(ctx);
     const store: InGameStore = await getInGameStore(
       matchId,
       round ? +round : undefined

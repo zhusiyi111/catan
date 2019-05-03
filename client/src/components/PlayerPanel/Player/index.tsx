@@ -24,7 +24,7 @@ function PlayerItem(props: Props) {
   const { name, resource, score, volume, cards, color } = player;
   const isMe = playerId === +getPlayerId();
   const isActive = currentPlayer === playerId;
-
+  const resourceToal = getResourceTotal(resource);
   return (
     <div
       style={{ backgroundColor: color }}
@@ -45,7 +45,11 @@ function PlayerItem(props: Props) {
       <div className="secondLine">
         <div className="infoItem">
           资源:
-          <span className="num">{getResourceTotal(resource)}</span>
+          <span
+            className={classnames("num", { danger: resourceToal >= volume })}
+          >
+            {resourceToal}
+          </span>
         </div>
         <div className="infoItem">
           容量:

@@ -99,3 +99,22 @@ export function broadcaseRobResult({
     }
   });
 }
+
+export function broadcastDealInBlackMarket({
+  players,
+  playerId,
+  gainResource
+}: {
+  players: Players;
+  playerId: PlayerId;
+  gainResource: Resource;
+}) {
+  broadcast({
+    type: Event.DealInBlackMarket,
+    payload: {
+      players,
+      playerId,
+      gainResource
+    }
+  });
+}

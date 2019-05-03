@@ -1,21 +1,14 @@
 import { Players, PlayerId, Score, Player } from "../types/player";
-import { Villages, VillageType } from "../types/village";
+import { Villages } from "../types/village";
 import { Cards, CardType } from "../types/card";
+import { BaseContext } from "koa";
+import {
+  BuildScoreMap as _BuildScoreMap,
+  ScoreCard,
+  WinNeedScore
+} from "../../../client/src/const.json";
 
-/* 建筑得分 */
-const BuildScoreMap: { [i: string]: number } = {
-  [VillageType.Town]: 1,
-  [VillageType.City]: 2,
-  [VillageType.Warehouse]: 2,
-  [VillageType.Castle]: 2,
-  [VillageType.Wonder]: 3
-};
-
-/* 分数卡得分 */
-const ScoreCard = 1;
-
-/* 获胜所需 */
-const WinNeedScore = 10;
+const BuildScoreMap: { [i: string]: number } = _BuildScoreMap;
 
 export function calcPlayersScore(
   villages: Villages,
@@ -58,4 +51,12 @@ export function findWinner(scoreMap: {
     }
   }
   return undefined;
+}
+
+/* 返回playerId与matchId */
+export function getPlayerAndMatchId(ctx: BaseContext) {
+  let { playerId, matchId } = ctx.query;
+  playerId = +playerId;
+  matchId = +matchId;
+  return { playerId, matchId };
 }

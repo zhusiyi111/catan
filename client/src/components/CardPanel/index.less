@@ -1,6 +1,7 @@
 @import "../Sidebar/index.less";
+@import '../MessagePanel/index.less';
 .cardPanel {
-  max-width: calc(100vw - @sidebar-width - 150px);
+  max-width: calc(100vw - @sidebar-width - 150px - @message-panel-width);
   overflow: auto;
   &.disabled {
     filter: grayscale(1);

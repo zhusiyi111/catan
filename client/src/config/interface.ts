@@ -1,5 +1,5 @@
 const prefix = "/api";
-const domain = "catan.h5editor.cn";
+const domain = "catan.h5editor.net";
 const protocol = "http://";
 
 const wsPrefix = "/ws";
@@ -9,6 +9,9 @@ const Path = {
   ready: `/flow/ready`,
   endRound: `/flow/endRound`,
   reconnect: `/flow/reconnect`,
+
+  /* player */
+  dealInBlackMarket: `/player/dealInBlackMarket`,
 
   /* village */
   buildVillage: `/village/build`,
