@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router";
+import { withRouter } from "react-router-dom";
 import { reconnect } from "../../models/flow/service";
 import { getPlayerId } from "../../models/player/helper";
 
@@ -13,7 +15,10 @@ interface LoginState {
   playerId: number;
 }
 
-class Login extends React.Component<LoginProps, LoginState> {
+class Login extends React.Component<
+  LoginProps & RouteComponentProps,
+  LoginState
+> {
   state = {
     playerId: -1
   };
@@ -30,7 +35,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     const matchId = getMatchId();
     if (!playerId || !matchId) {
       alert("没登录，先出去登录");
-      window.location.href = "/";
+      this.props.history.push("/");
     } else {
       reconnect();
     }
@@ -45,4 +50,4 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 }
 
-export default connect(null)(Login);
+export default withRouter(connect(null)(Login));

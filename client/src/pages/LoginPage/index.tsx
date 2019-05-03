@@ -1,4 +1,6 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
 import { ready } from "../../models/flow/service";
 import { getPlayerId, setPlayerId } from "../../models/player/helper";
 
@@ -14,7 +16,10 @@ interface LoginState {
   matchId: MatchId;
 }
 
-class Login extends React.Component<LoginProps, LoginState> {
+class Login extends React.Component<
+  LoginProps & RouteComponentProps,
+  LoginState
+> {
   state = {
     playerId: -1,
     matchId: -1
@@ -28,7 +33,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       matchId
     });
   }
- 
+
   onReady = async () => {
     let { playerId } = this.state;
     if (!playerId || playerId <= 0) {
@@ -47,7 +52,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     await ready(playerId);
 
-    window.location.href = "/game";
+    this.props.history.push("/game");
   };
 
   render() {
@@ -85,4 +90,4 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 }
 
-export default Login;
+export default withRouter(Login);
