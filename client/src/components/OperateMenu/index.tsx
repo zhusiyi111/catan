@@ -150,13 +150,13 @@ class OperateMenu extends Component<OperateMenuProps> {
           <Popover
             content={
               <>
-                <p>仓库，单位产量：{ProduceMap[VillageType.Castle]}</p>
+                <p>仓库，单位产量：{ProduceMap[VillageType.Warehouse]}</p>
                 <p>功能：每个仓库额外增加{VolumeOfWarehouse}个容量</p>
                 <p>
                   建造需要：
-                  {formatResourceToText(BuildingResouceMap[VillageType.Castle])}
+                  {formatResourceToText(BuildingResouceMap[VillageType.Warehouse])}
                 </p>
-                <p>每个单位贡献分数：{BuildScoreMap[VillageType.Castle]}</p>
+                <p>每个单位贡献分数：{BuildScoreMap[VillageType.Warehouse]}</p>
               </>
             }
             title="仓库"
