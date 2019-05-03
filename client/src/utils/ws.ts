@@ -2,7 +2,9 @@ import wsDispatch from "../ws-dispatch";
 import { bindPlayer, reconnect } from "../models/flow/service";
 import { getPlayerId } from "../models/player/helper";
 import { wsPrefix, domain } from "../config/interface";
-const ws = new WebSocket(`ws://${domain}:9001 `)
+const temp = '47.107.69.189';
+
+const ws = new WebSocket(`ws://${temp}:9001 `)
 
 
 
