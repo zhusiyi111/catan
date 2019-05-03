@@ -2,7 +2,10 @@ import * as WebSocket from "ws";
 import Event from "../../../client/src/ws-dispatch/event";
 import { PlayerId } from "player";
 
-const wss = new WebSocket.Server({ port: 9001 });
+const port = 9001;
+
+const wss = new WebSocket.Server({ port });
+console.log(`ws working on ${port}`);
 
 const wsList: WebSocket[] = [];
 
