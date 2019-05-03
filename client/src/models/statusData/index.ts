@@ -1,6 +1,5 @@
 import { omit } from "lodash";
 import { Status } from "../status";
-import { State } from "..";
 import { VillageLocation } from "../village";
 
 export interface StatusData {

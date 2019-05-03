@@ -26,6 +26,7 @@ export function isEffectedDot(dot: IDot, villages: Villages) {
     const dotstrs = getEffectLocation(v.location).map(v => JSON.stringify(v));
     dotstrs.map(v => {
       acc.add(v);
+      return null;
     });
     return acc;
   }, new Set());

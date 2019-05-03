@@ -1,6 +1,5 @@
 import { Location } from "../location";
 
-import { ResourceType } from "../resource";
 import { Status } from "../status";
 import { selectRobberArea } from "./service";
 import { message } from "antd";

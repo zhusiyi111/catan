@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, notification } from "antd";
+import { notification } from "antd";
 
 notification.config({
   duration: 4,

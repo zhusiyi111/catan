@@ -1,4 +1,4 @@
-import { Players, PlayerId, Player } from "../player";
+import { Players, PlayerId } from "../player";
 import { Villages, VillageType } from ".";
 
 export function getPlayer(playerId: PlayerId, players: Players) {

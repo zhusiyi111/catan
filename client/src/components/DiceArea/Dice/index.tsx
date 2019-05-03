@@ -20,7 +20,7 @@ const DiceMap: { [i: string]: string } = {
 export default function Dice({ number }: { number?: number }) {
   return (
     <div className="dice">
-      <img src={DiceMap[number || 1]} />
+      <img alt="dice" src={DiceMap[number || 1]} />
     </div>
   );
 }

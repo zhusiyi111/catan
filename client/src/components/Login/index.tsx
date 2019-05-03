@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
-import { ready, reconnect } from "../../models/flow/service";
-import { getPlayerId, setPlayerId } from "../../models/player/helper";
+import { reconnect } from "../../models/flow/service";
+import { getPlayerId } from "../../models/player/helper";
 
 import "./index.less";
 import { getMatchId } from "../../models/matchId/helper";

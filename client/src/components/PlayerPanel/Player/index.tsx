@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { connect } from "react-redux";
 
-import { Player, PlayerId, Players } from "../../../models/player";
+import { PlayerId, Players } from "../../../models/player";
 import { getResourceTotal } from "../../../models/resource/helper";
 import "./index.less";
 import { getPlayerId, getPlayer } from "../../../models/player/helper";

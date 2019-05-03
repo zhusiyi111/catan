@@ -1,8 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
 import { ready } from "../../models/flow/service";
 import { getPlayerId, setPlayerId } from "../../models/player/helper";
-import { withRouter } from "react-router-dom";
 
 import "./index.less";
 import { Input, Button } from "antd";

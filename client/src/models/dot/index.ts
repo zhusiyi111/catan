@@ -1,7 +1,6 @@
 import { Location } from "../location";
 import { getDotsFromAreas, isEffectedDot } from "../dot/helper";
-import { VillageType, Villages } from "../village";
-import { isEqualLocation } from "../location/helper";
+import { Villages } from "../village";
 import { Areas } from "../area";
 import { State } from "..";
 

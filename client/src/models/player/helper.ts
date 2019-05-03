@@ -1,4 +1,4 @@
-import { PlayerId, Players, Player } from ".";
+import { PlayerId, Players } from ".";
 
 export const PlayerIdKey = "playerId";
 

@@ -103,9 +103,9 @@ class Area extends Component<AreaProps> {
 
   render() {
     const { area, currentRoll } = this.props;
-    const { name, type, number, location, hasRobber } = area;
+    const { type, number, location, hasRobber } = area;
     const offset = this.getOffset(location);
-    
+
     return (
       <div
         className={classnames("area", type, {
@@ -124,8 +124,7 @@ class Area extends Component<AreaProps> {
         >
           {number}
         </p>
-        {/* <div className="name">{name}</div> */}
-        <img className="areaBg" src={BgMap[type]} />
+        <img className="areaBg" alt="bg" src={BgMap[type]} />
       </div>
     );
   }

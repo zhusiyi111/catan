@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from "react";
+import React, { Component } from "react";
 import { Popover } from "antd";
 import { Card, CardType } from "../../../models/card";
 import ArmyCard from "./ArmyCard";

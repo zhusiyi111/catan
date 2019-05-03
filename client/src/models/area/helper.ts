@@ -1,5 +1,5 @@
 import { Areas, IArea } from ".";
-import { Villages, IVillage, VillageType } from "../village";
+import { Villages, VillageType } from "../village";
 import { isEqualLocation } from "../location/helper";
 
 export function getAreasSize(areas: Areas) {

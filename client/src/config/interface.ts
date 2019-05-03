@@ -1,5 +1,8 @@
 const prefix = "/api";
-const domain = "catan.net";
+const domain = "catan.h5editor.cn";
+const protocol = "http://";
+
+const wsPrefix = "/ws";
 
 const Path = {
   /* flow */
@@ -23,4 +26,4 @@ const Path = {
 
 const Interface = Path;
 
-export { Path, Interface, prefix, domain };
+export { Path, Interface, prefix, domain, wsPrefix, protocol };

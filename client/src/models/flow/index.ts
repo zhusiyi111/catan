@@ -4,7 +4,7 @@ import { doubleRoll } from "../roll/helper";
 import { Areas, IArea } from "../area";
 import { Villages, IVillage, VillageType } from "../village";
 import { isEqualLocation } from "../location/helper";
-import player, { Players, PlayerId } from "../player";
+import { Players, PlayerId } from "../player";
 import { Resource, ResourceType } from "../resource";
 import { endRound } from "./service";
 import { Round } from "../round";

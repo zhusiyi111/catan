@@ -1,4 +1,4 @@
-import React, { Component, ReactElement } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { IVillage, VillageLocation, VillageType } from "../../models/village";

@@ -1,4 +1,4 @@
-import { every, forEach } from "lodash";
+import { every } from "lodash";
 import { Resource, ResourceType, BuildingResouceMap, ResourceName } from ".";
 import { reduce } from "lodash";
 import { VillageType } from "../village";

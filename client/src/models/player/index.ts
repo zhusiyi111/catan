@@ -19,8 +19,6 @@ export interface Player {
   volume: Volume;
 }
 
-const DefaultVolume = 8;
-
 export type Players = Player[];
 
 const initialState: Players = [];

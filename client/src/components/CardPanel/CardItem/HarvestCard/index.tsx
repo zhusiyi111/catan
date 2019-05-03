@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row } from "antd";
+import { Row, Button } from "antd";
 import { connect } from "react-redux";
 
 import SelectResource from "../../../SelectResource";
@@ -28,14 +28,14 @@ function HarvestCard(props: HarvestCardProps) {
           />
         </Row>
         <Row>
-          <a
+          <Button
             onClick={() => {
               props.useHarvestCard(resource);
               props.onClose();
             }}
           >
             使用
-          </a>
+          </Button>
         </Row>
       </div>
     </div>
