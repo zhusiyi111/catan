@@ -1,5 +1,7 @@
+import { isProd } from "./env";
+
 const prefix = "/api";
-const domain = "catan.h5editor.net";
+const domain = isProd ? "catan.h5editor.cn" : "catan.h5editor.net";
 const protocol = "http://";
 
 const wsPrefix = "/ws";
