@@ -27,7 +27,7 @@ const initialState: Players = [];
 export default {
   state: initialState,
   reducers: {
-    changeStatus: (s: State) => {
+    changeStatus: (s: Players) => {
       return s;
     },
     updatePlayers: (s: Players, p: Players) => {
@@ -53,6 +53,14 @@ export default {
       const res = await dealInBlackMarket(giveResource, gainResource);
       if (res.success) {
       }
+    }
+  }),
+  selectors: (slice: any) => ({
+    total() {
+      return slice((players: Players) => players.length);
+    },
+    items() {
+      return slice;
     }
   })
 };

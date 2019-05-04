@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Popover } from "antd";
+import classnames from "classnames";
 import { Card, CardType } from "../../../models/card";
 import ArmyCard from "./ArmyCard";
 
@@ -57,7 +58,7 @@ class CardItem extends Component<CardItemProps, CardItemState> {
         visible={popoverVisible}
         onVisibleChange={this.handleVisibleChange}
       >
-        <div className="cardItem">
+        <div className={classnames("cardItem", "sound_click")}>
           <p className="name">{name}</p>
         </div>
       </Popover>

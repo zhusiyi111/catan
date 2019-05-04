@@ -1,11 +1,23 @@
-import { init, RematchRootState, RematchDispatch } from "@rematch/core";
+import {
+  init,
+  RematchRootState,
+  RematchStore,
+  RematchDispatch
+} from "@rematch/core";
+import selectPlugin from "@rematch/select";
+
 import * as models from "./models";
 
-const store = init({ models });
+const config = { models, plugins: [selectPlugin()] };
 
-type TModel = typeof models;
+const store = init(config);
+
+export type TModel = typeof models;
+
+export type Dispatch = RematchDispatch<TModel>;
+
+export const { select } = store;
 
 export type State = RematchRootState<TModel>;
-export type Dispatch = RematchDispatch<TModel>;
 
 export default store;

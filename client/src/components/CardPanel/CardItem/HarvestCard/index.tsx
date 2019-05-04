@@ -29,6 +29,7 @@ function HarvestCard(props: HarvestCardProps) {
         </Row>
         <Row>
           <Button
+            className="sound_click"
             onClick={() => {
               props.useHarvestCard(resource);
               props.onClose();

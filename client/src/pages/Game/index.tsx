@@ -11,6 +11,7 @@ import "./index.less";
 import Login from "../../components/Login";
 import Footer from "../../components/Footer";
 import { State } from "../../models";
+import sound, { Sound, SoundType } from "../../components/Sound";
 
 interface Props {
   round: number;
@@ -18,7 +19,16 @@ interface Props {
 class GamePage extends Component<Props> {
   componentDidMount() {
     start();
+    this.bindClickSound();
   }
+  bindClickSound = () => {
+    document.addEventListener("click", e => {
+      if ((e.target as HTMLElement).classList.contains("sound_click")) {
+        sound(SoundType.Click).play();;
+      }
+    });
+  };
+
   render() {
     const { round } = this.props;
     const isReady = round && round !== -2;
@@ -34,6 +44,7 @@ class GamePage extends Component<Props> {
           </>
         )}
         <Login />
+        <Sound />
       </div>
     );
   }

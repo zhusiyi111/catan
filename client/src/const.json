@@ -48,11 +48,11 @@
     "wonder": 3
   },
   "DefaultResource": {
-    "brick": 2,
-    "wood": 2,
-    "wheat": 2,
-    "sheep": 2,
-    "ore": 2
+    "brick": 222,
+    "wood": 222,
+    "wheat": 222,
+    "sheep": 222,
+    "ore": 222
   },
   "DefaultVolume": 8,
   "ScoreCard": 1,

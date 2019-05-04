@@ -25,6 +25,7 @@ import {
   ProduceMap,
   CardResource
 } from "../../models/resource";
+import sound, { SoundType } from "../Sound";
 
 interface OperateMenuProps {
   status: Status[];
@@ -70,6 +71,7 @@ class OperateMenu extends Component<OperateMenuProps> {
   };
 
   clickEndTurn = () => {
+    sound(SoundType.EndTurn).play();
     endTurn();
   };
 
@@ -84,7 +86,11 @@ class OperateMenu extends Component<OperateMenuProps> {
     const { resource } = me;
 
     return (
-      <div className={classnmes("operateMenu", { disabled: !isMyRound })}>
+      <div
+        className={classnmes("operateMenu", "sound_click", {
+          disabled: !isMyRound
+        })}
+      >
         <div className="row">
           <DealPanel />
         </div>
@@ -108,9 +114,11 @@ class OperateMenu extends Component<OperateMenuProps> {
           >
             <Button
               type="primary"
-              className="operateBtn"
+              className={classnmes("operateBtn", "sound_click")}
               disabled={
-                !isStatus(status, Status.Main) || !canBuildVillage(resource)
+                !isMyRound ||
+                !isStatus(status, Status.Main) ||
+                !canBuildVillage(resource)
               }
               onClick={this.clickBuildVillage}
             >
@@ -136,8 +144,9 @@ class OperateMenu extends Component<OperateMenuProps> {
           >
             <Button
               type="primary"
-              className="operateBtn"
+              className={classnmes("operateBtn", "sound_click")}
               disabled={
+                !isMyRound ||
                 !canResourceUpgradeVillage(VillageType.City, resource) ||
                 !hasTown(villages, me.id)
               }
@@ -154,7 +163,9 @@ class OperateMenu extends Component<OperateMenuProps> {
                 <p>功能：每个仓库额外增加{VolumeOfWarehouse}个容量</p>
                 <p>
                   建造需要：
-                  {formatResourceToText(BuildingResouceMap[VillageType.Warehouse])}
+                  {formatResourceToText(
+                    BuildingResouceMap[VillageType.Warehouse]
+                  )}
                 </p>
                 <p>每个单位贡献分数：{BuildScoreMap[VillageType.Warehouse]}</p>
               </>
@@ -164,8 +175,9 @@ class OperateMenu extends Component<OperateMenuProps> {
           >
             <Button
               type="primary"
-              className="operateBtn"
+              className={classnmes("operateBtn", "sound_click")}
               disabled={
+                !isMyRound ||
                 !canResourceUpgradeVillage(VillageType.Warehouse, resource) ||
                 !hasTown(villages, me.id)
               }
@@ -194,8 +206,9 @@ class OperateMenu extends Component<OperateMenuProps> {
           >
             <Button
               type="primary"
-              className="operateBtn"
+              className={classnmes("operateBtn", "sound_click")}
               disabled={
+                !isMyRound ||
                 !canResourceUpgradeVillage(VillageType.Castle, resource) ||
                 !hasTown(villages, me.id)
               }
@@ -220,8 +233,9 @@ class OperateMenu extends Component<OperateMenuProps> {
           >
             <Button
               type="primary"
-              className="operateBtn"
+              className={classnmes("operateBtn", "sound_click")}
               disabled={
+                !isMyRound ||
                 !canResourceUpgradeVillage(VillageType.Wonder, resource) ||
                 !hasTown(villages, me.id)
               }
@@ -250,8 +264,8 @@ class OperateMenu extends Component<OperateMenuProps> {
           >
             <Button
               type="primary"
-              className="operateBtn"
-              disabled={!canDarwCard(resource)}
+              className={classnmes("operateBtn", "sound_click")}
+              disabled={!isMyRound || !canDarwCard(resource)}
               onClick={this.clickCard}
             >
               抽牌
@@ -260,7 +274,12 @@ class OperateMenu extends Component<OperateMenuProps> {
           <Button onClick={this.clickCancel}>取消</Button>
         </div>
 
-        <Button className="endRound" type="primary" onClick={this.clickEndTurn}>
+        <Button
+          className={classnmes("endRound")}
+          type="primary"
+          disabled={!isMyRound}
+          onClick={this.clickEndTurn}
+        >
           结束回合
           <Icon type="right-circle" theme="filled" />
         </Button>

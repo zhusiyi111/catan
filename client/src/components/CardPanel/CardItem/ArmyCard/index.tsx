@@ -16,6 +16,7 @@ export default function ArmyCard(props: Props) {
       <div style={{ textAlign: "right" }}>
         <Row>
           <Button
+            className="sound_click"
             onClick={() => {
               dispatch.status.clickUseArmyCard(undefined);
               props.onClose();

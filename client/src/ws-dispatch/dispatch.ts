@@ -11,6 +11,7 @@ import { getPlayerId } from "../models/player/helper";
 import { Status } from "../models/status";
 import hint from "../components/Hint";
 import { getMatchId } from "../models/matchId/helper";
+import sound, { SoundType } from "../components/Sound";
 
 const { dispatch } = store;
 
@@ -38,6 +39,7 @@ export function newRound(payload: InGameStore) {
     roll,
     players
   } = payload;
+  // sound(SoundType.EndTurn).play();
   dispatch.currentPlayer.changePlayer(currentPlayer);
   dispatch.matchId.updateMatchId(matchId);
   dispatch.areas.updateAreas(areas);
@@ -56,6 +58,7 @@ export function buildVillage({
   players: Players;
   villages: Villages;
 }) {
+  sound(SoundType.Build).play();
   dispatch.villages.updateVillages(villages);
   dispatch.players.updatePlayers(players);
   dispatch.status.returnMain();
@@ -107,6 +110,7 @@ const useArmyCard = ({
   if (player) {
     const { name } = player;
     log(`${name}使用了士兵卡`);
+    sound(SoundType.Rob).play();
     dispatch.players.updatePlayers(players);
     dispatch.areas.updateAreas(areas);
   }
@@ -123,9 +127,11 @@ const robAreaFromDice = ({
   areas: Areas;
 }) => {
   const player = getPlayer(playerId, players);
+
   if (player) {
     const { name } = player;
     log(`${name}领导强盗`);
+    sound(SoundType.Rob).play();
     dispatch.players.updatePlayers(players);
     dispatch.areas.updateAreas(areas);
   }
@@ -147,12 +153,12 @@ const robResult = ({
   const robber = getPlayer(robPlayerId, players);
 
   const robbed = getPlayer(owner, players);
-
   if (robbed && robber) {
     const robbedName = robber.name;
 
     const robberName = robbed.name;
 
+    sound(SoundType.RobVillage).play();
     log(`${robberName}抢走了${robbedName}:${formatResourceToText(resource)}`);
     dispatch.villages.robbing(location);
     dispatch.players.updatePlayers(players);
@@ -167,6 +173,7 @@ const upgradeCity = ({
   players: Players;
   villages: Villages;
 }) => {
+  sound(SoundType.Build).play();
   dispatch.villages.updateVillages(villages);
   dispatch.players.updatePlayers(players);
 };
@@ -180,7 +187,7 @@ const gameOver = ({ winner }: { winner: PlayerId }) => {
 /* 强盗骰 */
 const RobDice = ({ playerId }: { playerId: PlayerId }) => {
   log("强盗出动");
-
+  sound(SoundType.Dice7).play();
   /* 当前回合玩家操作强盗 */
   if (playerId === getPlayerId()) {
     hint.info({
@@ -211,9 +218,7 @@ const dealInBlackMarket = ({
   const player = getPlayer(playerId, players);
   if (player) {
     log(
-      `${player.name}通过黑市交易得到了${formatResourceToText(
-        gainResource
-      )}`
+      `${player.name}通过黑市交易得到了${formatResourceToText(gainResource)}`
     );
   }
   dispatch.players.updatePlayers(players);

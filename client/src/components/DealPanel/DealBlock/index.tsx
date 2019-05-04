@@ -12,9 +12,12 @@ import "./index.less";
 import { getPlayerId } from "../../../models/player/helper";
 import { getPlayer } from "../../../models/village/helper";
 import { getResourceTotal } from "../../../models/resource/helper";
+import sound, { SoundType } from "../../Sound";
+import { select } from "../../../models";
 
 interface DeslBlockProps extends FormComponentProps {
   players: Players | undefined;
+  isMyRound: boolean;
   dealInBlackMarket: ({
     giveResource,
     gainResource
@@ -84,11 +87,17 @@ class DealBlock extends Component<DeslBlockProps> {
           );
           return;
         } else {
-          message.success("成功达成py交易");
+          message.success("交易成功");
+          this.resetForm();
+          sound(SoundType.Deal).play();
           this.props.dealInBlackMarket({ giveResource, gainResource });
         }
       }
     });
+  };
+
+  resetForm = () => {
+    this.props.form.resetFields();
   };
 
   getMyResource = (players: Players) => {
@@ -101,17 +110,19 @@ class DealBlock extends Component<DeslBlockProps> {
   };
 
   render() {
-    const { players, form } = this.props;
+    const { players, form, isMyRound } = this.props;
     const { getFieldDecorator } = form;
 
     if (!players) return null;
     const resource = this.getMyResource(players);
-
+    
     if (!resource) return null;
 
     return (
       <div className="dealBlock">
-        <h2>汇率：{PureRate}个相同资源或{MultipleRate}个任意资源换1个所需资源</h2>
+        <h2>
+          汇率：{PureRate}个相同资源或{MultipleRate}个任意资源换1个所需资源
+        </h2>
         <Form onSubmit={this.onSubmit}>
           <div className="operateArea">
             <div className="gain">
@@ -204,8 +215,18 @@ class DealBlock extends Component<DeslBlockProps> {
               </Form.Item>
             </div>
           </div>
-          <div className="">
-            <Button type="primary" htmlType="submit">
+          <div className="footerBtns">
+            <Button
+              onClick={this.resetForm}
+              className={classNames("sound_click")}
+            >
+              重置
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className={classNames("submitBtn")}
+            >
               成交！
             </Button>
           </div>
@@ -215,9 +236,10 @@ class DealBlock extends Component<DeslBlockProps> {
   }
 }
 
-const mapState = (s: State) => ({
-  players: s.players
-});
+const mapState = select((s: any) => ({
+  players: s.players.items,
+  total: s.players.total,
+}));
 
 const mapProps = (dispatch: any) => ({
   dealInBlackMarket: dispatch.players.dealInBlackMarket

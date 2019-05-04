@@ -1188,6 +1188,13 @@
   dependencies:
     redux "^4.0.1"
 
+"@rematch/select@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@rematch/select/-/select-2.0.4.tgz#6e21c795e289f1a5c9ce6b5141b53e27953b40ad"
+  integrity sha512-YB/AWsA5KRyR877dJvMzq2o4clbsAPgUnwITAunlmGtYoyUDjRcIxpT33ntBhnub8iNVSz9Bk+Bd1hm7nw/vGA==
+  dependencies:
+    reselect "^3.0.1"
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz#dadcb6218503532d6884b210e7f3c502caaa44b1"
@@ -9458,6 +9465,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+
+reselect@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
+  integrity sha1-79qpjqdFEyTQkrKyFjpqHXqaIUc=
 
 resize-observer-polyfill@^1.5.0, resize-observer-polyfill@^1.5.1:
   version "1.5.1"

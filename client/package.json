@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "7.4.3",
     "@rematch/core": "^1.1.0",
+    "@rematch/select": "^2.0.4",
     "@svgr/webpack": "^4.2.0",
     "@typescript-eslint/eslint-plugin": "1.6.0",
     "@typescript-eslint/parser": "1.6.0",
